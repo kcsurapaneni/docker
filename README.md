@@ -58,3 +58,31 @@ Example
 - `docker logs <container-id>` - Shows logs along with timestamp
 - `docker rm <container-id>` - Remove container
 - `docker rmi <image-id>` - Remove image
+
+## Dockerfile
+
+Docker files contains a set of steps, instructions or directives which are used via `docker build` command to create a docker image
+
+### Structure
+
+- Each line will have instruction and arguments
+- It's a convention to have all the instructions on CAPS to distinguish between arguments. (`FROM nginx`)
+
+### Instructions
+
+- `FROM` - sets the base image for a build and it is a must instruction (e.g. alpine)
+- `LABEL` - adds metadata of an image (e.g. description, maintainer)
+
+> <p style="color:red"> Following 3 instructions will created a new layer per instruction </p>
+
+- `RUN` - runs commands in a new layer (e.g. installs or configuration)
+- `COPY` - will copy the files from source (client machine) to destination (new image layer)
+- `ADD` - It also does the same as `COPY`, but in addition to that we can use remote URL and do the extraction
+
+- `CMD` - It defines default executables of a container. If you want to run a web server on creating a container from image by default, then you can specify this and it is automatically starts. This can be overridden by docker run command arguments.
+
+- `ENTRYPOINT` - does the same thing as `CMD`, but can't be overridden
+
+> We can also use both `CMD` and `ENTRY point` together in a single file, where `CMD` specifies default options to the executable specified in the `ENTRYPOINT` instruction
+
+- `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
