@@ -45,3 +45,16 @@ Example
 - `docker ps` - List running containers in the docker daemon
 - `docker ps -a` - List all the containers(including exited) in the docker daemon
 - `docker images` - List images which are downloaded from registry and available in your local server
+- `docker inspect <image-id>` - List metadata information like id, created, config, file system, OS, architecture of that image
+- `docker run <image-id>` - It will run the image as container
+- `docker run -d <image-id>` - It will run the image as container in detached mode. So, we can safely close the terminal or shell
+- `docker run -p <host-port>:<container-port> <image-id>` - It will run the image as container and expose the port of the specified container to local defined port
+- `docker port <container-id>` - It will show the ports info, that are exposed from container to localhost
+- `docker exec -it <container-id> <cmd>` - It will execute the `cmd` on the running container and returns the output
+- `docker restart <container-id>`
+- `docker start <container-id>`
+- `docker stop <container-id>`
+- `docker logs <container-id>`
+- `docker logs <container-id>` - Shows logs along with timestamp
+- `docker rm <container-id>` - Remove container
+- `docker rmi <image-id>` - Remove image
