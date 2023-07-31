@@ -109,3 +109,9 @@ Docker files contains a set of steps, instructions or directives which are used 
 - Can't be shared across containers
 - Generally used for storing sensitive or temp files
 
+### Bind Mounts
+
+- It maps host folders to container folders
+- As it rely on host folder structure, not portable. Because, our system might not have the same folder structure if we want to run that image as container
+- Multiple containers can access same host folder
+
