@@ -83,6 +83,6 @@ Docker files contains a set of steps, instructions or directives which are used 
 
 - `ENTRYPOINT` - does the same thing as `CMD`, but can't be overridden
 
-> We can also use both `CMD` and `ENTRY point` together in a single file, where `CMD` specifies default options to the executable specified in the `ENTRYPOINT` instruction
+> We can also use both `CMD` and `ENTRYPOINT` together in a single file, where `CMD` specifies default options to the executable specified in the `ENTRYPOINT` instruction
 
 - `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
