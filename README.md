@@ -88,9 +88,9 @@ Docker files contains a set of steps, instructions or directives which are used 
 - `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
 
 
-## Storage
+## Container Storage
 
-### Container Storage
+### Writable Layer
 
 - Container image is made of a stack of immutable or read-only layers. When the Docker engine creates a container from such an image, it adds a writable container layer on top of this stack of immutable layers.
 
@@ -101,3 +101,11 @@ Docker files contains a set of steps, instructions or directives which are used 
 - The container’s writable layer does not persist after the container is deleted, but is suitable for storing ephemeral data that is generated at runtime.
 
 - Use Docker volumes for write-intensive data, data that must persist beyond the container’s lifespan, and data that must be shared between containers.
+
+### TMPFS
+
+- It uses host memory not disk, so it will be fast
+- Not persisted. Hence, once the container is deleted we lost the data
+- Can't be shared across containers
+- Generally used for storing sensitive or temp files
+
