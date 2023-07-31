@@ -115,3 +115,9 @@ Docker files contains a set of steps, instructions or directives which are used 
 - As it rely on host folder structure, not portable. Because, our system might not have the same folder structure if we want to run that image as container
 - Multiple containers can access same host folder
 
+### Volumes
+
+- These are same as `bind mounts`, but managed by docker
+- Storage is available outside of container lifecycle
+- Can be attached to multiple containers as well, but careful as there is no locking, we might get inconsistent results
+- Can be moved between containers
