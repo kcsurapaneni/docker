@@ -86,3 +86,18 @@ Docker files contains a set of steps, instructions or directives which are used 
 > We can also use both `CMD` and `ENTRYPOINT` together in a single file, where `CMD` specifies default options to the executable specified in the `ENTRYPOINT` instruction
 
 - `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
+
+
+## Storage
+
+### Container Storage
+
+- Container image is made of a stack of immutable or read-only layers. When the Docker engine creates a container from such an image, it adds a writable container layer on top of this stack of immutable layers.
+
+- The container layer is marked as read/write. Another advantage of the immutability of image layers is that they can be shared among many containers created from this image. All that is needed is a thin, writable container layer for each container.
+
+- Docker uses storage drivers to store image layers, and to store data in the writable layer of a container.
+
+- The container’s writable layer does not persist after the container is deleted, but is suitable for storing ephemeral data that is generated at runtime.
+
+- Use Docker volumes for write-intensive data, data that must persist beyond the container’s lifespan, and data that must be shared between containers.
