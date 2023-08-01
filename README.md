@@ -87,7 +87,7 @@ Docker files contains a set of steps, instructions or directives which are used 
 
 - `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
 
-## Environment variables
+## Environment Variables
 
 - We can pass environment variables like `-e <env-name>=<env-value>` 
 - e.g. `docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress -d mysql:8.0.23`
@@ -131,6 +131,12 @@ Docker files contains a set of steps, instructions or directives which are used 
 - It maps host folders to container folders
 - As it rely on host folder structure, not portable. Because, our system might not have the same folder structure if we want to run that image as container
 - Multiple containers can access same host folder
+- Using `-v` flag
+    > ```docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress -v /Users/kc/docker_mysql8_data:/var/lib/mysql -d mysql:8.0.23```
+- Using `--mount` flag
+    > ```docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress --mount type=bind,source=/Users/kc/docker_mysql8_data,target=/var/lib/mysql -d mysql:8.0.23```
+
+> The difference between `-v` and `--mount` is that, `-v` can create a directory if it didn't exist, BUT `--mount` gives an error if the directory doesn't exist 
 
 ### Volumes
 
