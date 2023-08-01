@@ -150,3 +150,17 @@ Docker files contains a set of steps, instructions or directives which are used 
     > `docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress --mount source=docker_mysql8_data,target=/var/lib/mysql -d mysql:8.0.23`
 - We can list all the volumes by `docker volume ls`
 - We can also manually create a volume by `docker volume create <volume-name>` and delete it by `docker volume rm <volume-name>`
+
+## Networking
+
+### Host Networking
+
+- Host networking containers share the host network.
+- So, whatever the container port, the same port will be used in host as well.
+- There is a limitation with this, as we can't run multiple containers which are using same port or same image of multiple containers.
+
+### Bridge Networking
+
+- There will be a bridge network will be created, so it will have different IP for each container.
+- So, each container can use same port of the container as every container is having different IP.
+- Container needs to publish the port when running in this case.(e.g. `-p <host-port>:<container-port>`)
