@@ -144,3 +144,9 @@ Docker files contains a set of steps, instructions or directives which are used 
 - Storage is available outside of container lifecycle
 - Can be attached to multiple containers as well, but careful as there is no locking, we might get inconsistent results
 - Can be moved between containers
+- Using `-v` flag
+    > `docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress -v docker_mysql8_data:/var/lib/mysql -d mysql:8.0.23`
+- Using `--mount` flag
+    > `docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress --mount source=docker_mysql8_data,target=/var/lib/mysql -d mysql:8.0.23`
+- We can list all the volumes by `docker volume ls`
+- We can also manually create a volume by `docker volume create <volume-name>` and delete it by `docker volume rm <volume-name>`
