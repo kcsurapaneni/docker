@@ -87,6 +87,23 @@ Docker files contains a set of steps, instructions or directives which are used 
 
 - `EXPOSE` - informs docker what port the container app is running on (metadata only, no network configuration)
 
+## Environment variables
+
+- We can pass environment variables like `-e <env-name>=<env-value>` 
+- e.g. `docker run --name db -e MYSQL_ROOT_PASSWORD=somewordpress -e MYSQL_PASSWORD=wordpress -e MYSQL_DATABASE=wordpress -e MYSQL_USER=wordpress -d mysql:8.0.23`
+- We can see the environment values of container by inspect (e.g. `docker inspect <container-id>`)
+```
+"Env": [
+    "MYSQL_ROOT_PASSWORD=somewordpress",
+    "MYSQL_PASSWORD=wordpress",
+    "MYSQL_DATABASE=wordpress",
+    "MYSQL_USER=wordpress",
+    "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "GOSU_VERSION=1.12",
+    "MYSQL_MAJOR=8.0",
+    "MYSQL_VERSION=8.0.23-1debian10"
+]
+```
 
 ## Container Storage
 
