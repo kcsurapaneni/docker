@@ -164,3 +164,9 @@ Docker files contains a set of steps, instructions or directives which are used 
 - There will be a bridge network will be created, so it will have different IP for each container.
 - So, each container can use same port of the container as every container is having different IP.
 - Container needs to publish the port when running in this case.(e.g. `-p <host-port>:<container-port>`)
+
+## Docker Compose
+
+- Docker Compose is a tool for running multi-container applications on Docker defined using the Compose file format. A Compose file is used to define how one or more containers that make up your application are configured.
+- Once you have a Compose file, you can create and start your application with a single command: `docker compose up`. To run in detached mode we can use `docker compose up -d`.
+- To tear down all the created containers during `up`, we can call `docker compose down`
