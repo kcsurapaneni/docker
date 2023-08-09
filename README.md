@@ -170,3 +170,57 @@ Docker files contains a set of steps, instructions or directives which are used 
 - Docker Compose is a tool for running multi-container applications on Docker defined using the Compose file format. A Compose file is used to define how one or more containers that make up your application are configured.
 - Once you have a Compose file, you can create and start your application with a single command: `docker compose up`. To run in detached mode we can use `docker compose up -d`.
 - To tear down all the created containers during `up`, we can call `docker compose down`
+
+## Multi-stage builds
+
+With multi-stage builds, you use multiple FROM statements in your Dockerfile. Each FROM instruction can use a different base, and each of them begins a new stage of the build. You can selectively copy artifacts from one stage to another, leaving behind everything you don’t want in the final image.
+
+```
+FROM maven:3.9-amazoncorretto-17
+
+ENV HOME=/usr/app
+RUN mkdir -p $HOME
+WORKDIR $HOME
+
+ADD ./app $HOME
+RUN mvn clean package -DskipTests
+
+
+FROM amazoncorretto:17.0.8
+
+COPY --from=0 /usr/app/target/app-0.0.1-SNAPSHOT.jar /app/app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT java -jar /app/app.jar
+```
+
+Now just run `docker build`
+
+`docker build -t kcsurapaneni/app:latest .`
+
+How does it work? The second `FROM` instruction starts a new build stage with the `amazoncorretto:17.0.8` image as its base. The `COPY --from=0` line copies just the built artifact from the previous stage into this new stage. The `maven:3.9-amazoncorretto-17` and any intermediate artifacts are left behind, and not saved in the final image.
+
+### Name your build stages
+By default, the stages aren’t named, and you refer to them by their integer number, starting with 0 for the first `FROM` instruction. However, you can name your stages, by adding an `AS <NAME>` to the `FROM` instruction. Following example improves the previous one by naming the stages and using the name in the `COPY` instruction. This means that even if the instructions in your Dockerfile are re-ordered later, the `COPY` doesn’t break.
+
+```
+FROM maven:3.9-amazoncorretto-17 AS builder
+
+ENV HOME=/usr/app
+RUN mkdir -p $HOME
+WORKDIR $HOME
+
+ADD ./app $HOME
+RUN mvn clean package -DskipTests
+
+
+FROM amazoncorretto:17.0.8
+
+COPY --from=builder /usr/app/target/app-0.0.1-SNAPSHOT.jar /app/app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT java -jar /app/app.jar
+```
+
