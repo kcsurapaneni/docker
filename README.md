@@ -245,3 +245,11 @@ services:
       - db
 ```
 In this example we have 2 services: `db` and `web`. The `web` service has a dependency on the `db` service specified using `depends_on`. This means when you run `docker compose up -d`, Docker Compose will start the `db` service before starting the `web` service. It ensures that the necessary dependencies are ready before bringing up the dependent services
+
+However, it's important note a few things.
+
+1. **Dependencies don't guarantee full readiness:** `depends_on` only ensures that the dependent service starts after the service it depends on. It doesn't wait for the dependent service to be fully `healthy` or `ready` before proceeding. If your application needs to be wait for a specific condition (like a database fully initialized), you may need additional mechanisms within your application code.
+2. **Not for inter-container communication:** `depends_on` is not designed for inter-container communication. It helps manage the startup order but doesn't manage the availability of network services between containers. If your application requires communication with another container, you should handle retries and connection handling within your application.
+3. **Availability:** Starting order doesn't guarantee availability. Even if a service starts, it doesn't guarantee that it's fully operational or responsive. Monitoring and health checks are important for ensuring your services are running as expected.
+
+In summary, `depends_on` is a useful feature in Docker Compose for managing startup order and basic dependencies, but doesn't handle all aspects of application readiness and communication between containers.
