@@ -224,3 +224,24 @@ EXPOSE 8080
 ENTRYPOINT java -jar /app/app.jar
 ```
 
+## depends_on
+
+In Docker, the `depends_on` attribute is used in a Docker compose file to specify the order in which services within a multi-container application should start.
+
+The `depends_on` attribute allows you to define the dependencies between services in your Docker compose setup. When you specify dependencies using `depends_on`, Docker Compose ensures that the specified services are started in the correct order before the dependent services are started.
+
+Here is the basic example of how `depends_on` works in a Docker Compose YAML file.
+```
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+
+  web:
+    image: mywebapp
+    depends_on:
+      - db
+```
+In this example we have 2 services: `db` and `web`. The `web` service has a dependency on the `db` service specified using `depends_on`. This means when you run `docker compose up -d`, Docker Compose will start the `db` service before starting the `web` service. It ensures that the necessary dependencies are ready before bringing up the dependent services
