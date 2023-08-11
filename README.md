@@ -253,3 +253,44 @@ However, it's important note a few things.
 3. **Availability:** Starting order doesn't guarantee availability. Even if a service starts, it doesn't guarantee that it's fully operational or responsive. Monitoring and health checks are important for ensuring your services are running as expected.
 
 In summary, `depends_on` is a useful feature in Docker Compose for managing startup order and basic dependencies, but doesn't handle all aspects of application readiness and communication between containers.
+
+## Health Check
+
+It is a feature that allows you to define a test to determine the health status of a container. Health checks help ensure that your containerized applications are running as expected ans can automatically handle situations where a container becomes unhealthy.
+> This is particularly useful in orchestrators like Docker Swarm or Kubernetes, where you want to maintain the desired state of your services and automatically replace unhealthy containers.
+
+A health check involves specifying a command or a combination of commands that are periodically executed within the container. The exit status of these commands determine the health status of the container. A healthy container typically has an exit status of 0, while a non-zero exit status indicates unhealthy state.
+
+Here is an example of defining a health check for a container in a Docker Compose file.
+```
+version: '3'
+services:
+    db:
+    platform: linux/x86_64
+    image: mysql:8.0.23
+    container_name: local-observability-db
+    environment:
+      MYSQL_DATABASE: observability
+      MYSQL_USER: observability_user
+      MYSQL_PASSWORD: observability_password
+      MYSQL_ROOT_PASSWORD: root_observability_password
+    ports:
+      - "${HOST_PORT:-3312}:3306"
+    volumes:
+      - ./db/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 30s
+      timeout: 5s
+      retries: 5
+```
+
+In this example,
+- **`test`**: This specifies the health check command to be executed. In this case, it's using `mysqladmin` command to check if DB is accessible to that user or not.
+- **`interval`**: This is the time interval between consecutive health checks. In this case, the health check will be performed every 30 seconds.
+- **`timeout`**: This is the maximum amount of time allowed for the health check command to run. If it takes longer than this timeout, the health check is considered failed.
+- **`retries`**: This specifies the number of consecutive failures before considering the container unhealthy. In this case, the health check wll be retried up to 5 times before marking the container as unhealthy.
+
+It's important to note that health checks are not a guarantee of the application's functionality, but rather a way to determine if the container is in a healthy state according to the defined criteria. Depending on the orchestrator we are using, unhealthy containers might be replaced automatically or trigger alerts for manual intervention.
+
+Health checks are a powerful tool for ensuring the reliability of our containerized applications, especially in dynamic scalable environments.
