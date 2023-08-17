@@ -294,3 +294,11 @@ In this example,
 It's important to note that health checks are not a guarantee of the application's functionality, but rather a way to determine if the container is in a healthy state according to the defined criteria. Depending on the orchestrator we are using, unhealthy containers might be replaced automatically or trigger alerts for manual intervention.
 
 Health checks are a powerful tool for ensuring the reliability of our containerized applications, especially in dynamic scalable environments.
+
+## Some more commands
+
+- To copy a file from docker host to running container
+  
+  - `docker cp <host-file-path> <name-of-the-container>:<path-of-the-container>`
+  
+  - `docker cp run.sh app:/tmp/run.sh`
