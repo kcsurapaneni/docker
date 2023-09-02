@@ -302,3 +302,34 @@ Health checks are a powerful tool for ensuring the reliability of our containeri
   - `docker cp <host-file-path> <name-of-the-container>:<path-of-the-container>`
   
   - `docker cp run.sh app:/tmp/run.sh`
+
+## [Using profiles with Compose](https://docs.docker.com/compose/profiles/)
+
+- We can attach profiles information to a service in docker compose.
+
+  ```
+  services:
+    frontend:
+      image: frontend
+      profiles: ["frontend"]
+
+    phpmyadmin:
+      image: phpmyadmin
+      depends_on:
+        - db
+      profiles:
+        - debug
+
+    backend:
+      image: backend
+
+    db:
+      image: mysql
+  ```
+- In the above example, `frontend` and `phpmyadmin` services are assigned with `frontend`, `debug` profiles.
+- Services without `profiles` are always enabled, when we run `docker compose up`, in this case `backend` and `db` will start.
+- If we want to start profile specific services we should mention `--profile`.
+
+- `docker compose --profile debug up` - This command will start `backend`, `db` and `phpmyadmin` services.
+
+- To read more on this, please refer official documentation here - https://docs.docker.com/compose/profiles/
